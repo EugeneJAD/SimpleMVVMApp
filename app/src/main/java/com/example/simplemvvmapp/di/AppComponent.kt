@@ -9,16 +9,19 @@ import dagger.android.AndroidInjector
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [
-    AndroidInjectionModule::class,
-    AppModule::class,
-    ActivityBuildersModule::class,
-    NetworkModule::class
-])
-interface AppComponent: AndroidInjector<SimpleApp> {
+@Component(
+  modules = [
+      AndroidInjectionModule::class,
+      AppModule::class,
+      ActivityBuildersModule::class,
+      NetworkModule::class,
+      CoroutinesModule::class
+  ]
+)
+interface AppComponent : AndroidInjector<SimpleApp> {
 
-    @Component.Factory
-    interface Factory {
-        fun create(@BindsInstance app: Application): AppComponent
-    }
+  @Component.Factory
+  interface Factory {
+    fun create(@BindsInstance app: Application): AppComponent
+  }
 }

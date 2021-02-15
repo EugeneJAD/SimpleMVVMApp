@@ -1,6 +1,7 @@
 package com.example.simplemvvmapp.di
 
 import com.example.simplemvvmapp.BuildConfig
+import com.example.simplemvvmapp.data.service.TasksRetrofitService
 import com.example.simplemvvmapp.utils.AppConstants
 import com.google.gson.Gson
 import dagger.Module
@@ -44,10 +45,10 @@ class NetworkModule {
             .client(okHttpClient)
             .build()
     }
-//
-//    @Provides
-//    fun provideCatalogService(retrofit: Retrofit): TasksService {
-//        return retrofit.create<TasksService>(TasksService::class.java)
-//    }
+
+   @Provides
+   fun provideTasksService(retrofit: Retrofit): TasksRetrofitService {
+       return retrofit.create(TasksRetrofitService::class.java)
+   }
 
 }

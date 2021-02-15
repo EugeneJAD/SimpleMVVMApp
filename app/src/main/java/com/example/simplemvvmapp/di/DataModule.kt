@@ -1,7 +1,7 @@
 package com.example.simplemvvmapp.di
 
 import com.example.simplemvvmapp.data.DataRepository
-import com.example.simplemvvmapp.data.Repository
+import com.example.simplemvvmapp.domain.Repository
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
