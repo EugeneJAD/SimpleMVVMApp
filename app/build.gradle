@@ -1,0 +1,91 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+}
+
+android {
+    buildToolsVersion sdk.buildTools
+    compileSdkVersion sdk.compileSdk
+
+    defaultConfig {
+        applicationId "com.example.simplemvvmapp"
+        minSdkVersion sdk.minSdk
+        targetSdkVersion sdk.targetSdk
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            applicationIdSuffix '.debug'
+            versionNameSuffix "-debug"
+        }
+    }
+
+    buildFeatures {
+        dataBinding true
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation "androidx.core:core-ktx:${versions.core}"
+    implementation "androidx.appcompat:appcompat:${versions.appcompat}"
+    implementation "com.google.android.material:material:${versions.material}"
+    implementation "androidx.constraintlayout:constraintlayout:${versions.constraintlayout}"
+    implementation "androidx.activity:activity-ktx:$versions.activity"
+    implementation "androidx.fragment:fragment-ktx:$versions.fragment"
+
+    // Coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions.coroutines}"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:${versions.coroutines}"
+
+    // Retrofit component
+    implementation("com.squareup.retrofit2:retrofit:$versions.retrofit") {
+        // exclude Retrofit’s OkHttp peer-dependency module and define our own module import
+        exclude group: 'com.squareup.okhttp3', module: 'okhttp'
+    }
+    implementation "com.squareup.retrofit2:converter-gson:$versions.retrofit"
+
+    // GSON component
+    implementation "com.google.code.gson:gson:$versions.gson"
+
+    // Okhttp component
+    implementation "com.squareup.okhttp3:okhttp:$versions.okhttp"
+    implementation "com.squareup.okhttp3:logging-interceptor:$versions.okhttp"
+
+    // Lifecycle
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$versions.lifecycle"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$versions.lifecycle"
+    implementation "androidx.lifecycle:lifecycle-common-java8:$versions.lifecycle"
+
+    // Dagger components
+    implementation "com.google.dagger:dagger:$versions.dagger"
+    implementation "com.google.dagger:dagger-android:$versions.dagger"
+    implementation "com.google.dagger:dagger-android-support:$versions.dagger"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    kapt "com.google.dagger:dagger-compiler:$versions.dagger"
+    kapt "com.google.dagger:dagger-android-processor:$versions.dagger"
+
+    // Timber
+    implementation "com.jakewharton.timber:timber:$versions.timber"
+
+    testImplementation "junit:junit:${versions.jUnit}"
+    androidTestImplementation "androidx.test.ext:junit:${versions.testExt}"
+    androidTestImplementation "androidx.test.espresso:espresso-core:${versions.espresso}"
+}
