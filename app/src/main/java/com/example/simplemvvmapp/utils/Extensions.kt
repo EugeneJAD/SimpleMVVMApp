@@ -1,5 +1,7 @@
 package com.example.simplemvvmapp.utils
 
+import android.content.Context
+import android.net.ConnectivityManager
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
@@ -13,4 +15,9 @@ inline fun <reified T : ViewModel> Fragment.provideViewModel(factory: ViewModelP
 inline fun <T : ViewDataBinding> T.executeAfter(block: T.() -> Unit) {
     block()
     executePendingBindings()
+}
+
+fun Context.hasNetworkConnection(): Boolean {
+    val cm = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    return cm.activeNetworkInfo?.isConnectedOrConnecting == true
 }

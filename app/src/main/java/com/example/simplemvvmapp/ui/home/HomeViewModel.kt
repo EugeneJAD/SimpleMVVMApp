@@ -6,10 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.simplemvvmapp.data.DataRepository
 import com.example.simplemvvmapp.domain.model.Task
-import com.example.simplemvvmapp.utils.CoroutinesDispatcherProvider
 import com.example.simplemvvmapp.utils.DispatcherProvider
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.lang.Exception
 import javax.inject.Inject
 
@@ -21,6 +19,9 @@ class HomeViewModel @Inject constructor(
   private val _uiState = MutableLiveData<UIState<List<Task>>>()
   val uiState: LiveData<UIState<List<Task>>> get() = _uiState
 
+  private val _refreshing = MutableLiveData<Boolean>()
+  val refreshing: LiveData<Boolean> get() = _refreshing
+
   init {
     loadData()
   }
@@ -29,12 +30,19 @@ class HomeViewModel @Inject constructor(
     emitUIState(UIState.Loading)
     viewModelScope.launch(dispatcherProvider.main) {
       try {
-        val result = withContext(dispatcherProvider.io) { repository.loadTasks() }
+        val result = repository.loadTasks()
         emitUIState(UIState.Success(result))
       } catch (e: Exception) {
         emitUIState(UIState.Error(e))
+      } finally {
+        _refreshing.value = false
       }
     }
+  }
+
+  fun onRefresh() {
+    _refreshing.value = true
+    loadData()
   }
 
   private fun emitUIState(state: UIState<List<Task>>) {
